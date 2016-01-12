@@ -11,10 +11,11 @@ from urllib.parse import urlparse
 from urllib.parse import urljoin
 from urllib.request import urlopen
 from html.parser import HTMLParser
-# from html import HTML
+# from html import HTML  #not under normal python distro.
 import html
 import paramTest
 import htmlconv
+import sitestructure
 import argparse
 from bs4 import BeautifulSoup
 
@@ -27,6 +28,12 @@ url = inputs.URL
 #url = commandLine.parse_args()
 
 # YOU WILL NEED TO CHANGE THIS TO YOUR URL
+
+#first check is the structure.
+
+
+
+
 
 urls = [url] 
 visited = [url]
@@ -61,29 +68,45 @@ def printImages(images):
 		print (htmlconv.imageHandler(image))
 
 
-# h = HTML('html', 'text')
 
-# print(h)
+print (htmlconv.h1('Report 40%'))
+print (htmlconv.h2('Wireframes 10%'))
+print (htmlconv.p('********'))
+print (htmlconv.h2('Report 30%'))
+print (htmlconv.p('********'))
+print (htmlconv.h1('Website 60%'))
+print (htmlconv.h2('Usability et. al. 15%'))
+print (htmlconv.p('********'))
+print (htmlconv.h2('Design Aesthetic 10%'))
+print (htmlconv.p('********'))
+print (htmlconv.h2('Responsive Design 15%'))
+print (htmlconv.p('********'))
+print (htmlconv.h2('Professional Chrome 10%'))
+print (htmlconv.p('********'))
+print (htmlconv.h2('HTML Validation 5%'))
+print (htmlconv.p('********'))
+print (htmlconv.h2('CSS Validation 5%'))
+print (htmlconv.p('********'))
 
 
-print (htmlconv.toH1('Report 40%'))
-print (htmlconv.toH2('Wireframes 10%'))
-print (htmlconv.toP('********'))
-print (htmlconv.toH2('Report 30%'))
-print (htmlconv.toP('********'))
-print (htmlconv.toH1('Website 60%'))
-print (htmlconv.toH2('Usability et. al. 15%'))
-print (htmlconv.toP('********'))
-print (htmlconv.toH2('Design Aesthetic 10%'))
-print (htmlconv.toP('********'))
-print (htmlconv.toH2('Responsive Design 15%'))
-print (htmlconv.toP('********'))
-print (htmlconv.toH2('Professional ‘chrome’ 10%'))
-print (htmlconv.toP('********'))
-print (htmlconv.toH2('HTML Validation 5%'))
-print (htmlconv.toP('********'))
-print (htmlconv.toH2('CSS Validation 5%'))
-print (htmlconv.toP('********'))
+print (htmlconv.h1('Site Folder Structure'))
+print(htmlconv.p(sitestructure.folder(url, 'style')))
+print(htmlconv.p(sitestructure.folder(url, 'js')))
+print(htmlconv.p(sitestructure.folder(url, 'stylesheet')))
+print(htmlconv.p(sitestructure.folder(url, 'img')))
+print(htmlconv.p(sitestructure.folder(url, 'font')))
+
+print(htmlconv.p(sitestructure.indexfile(url)))
+
+
+
+
+
+
+
+
+
+
 
 
 while len(urls) > 0:
@@ -96,7 +119,7 @@ while len(urls) > 0:
 
 	soup = BeautifulSoup(htmltext)
 
-	print (htmlconv.toH1(('Scanning URL ' + str(urls[0]))))
+	print (htmlconv.h1(('Scanning URL ' + str(urls[0]))))
 
 	urls.pop(0)
 
@@ -108,45 +131,45 @@ while len(urls) > 0:
 			urls.append(tag['href'])
 			visited.append(tag['href'])
 
-	print (htmlconv.toH2('HTML Structure'))
+	print (htmlconv.h2('HTML Structure'))
 
 	if len(soup.findAll('head')) == 0:
-		print (htmlconv.toP('You should have a <code>&lthead&gt</code> section in your HTML5'))
+		print (htmlconv.p('You should have a <code>&lthead&gt</code> section in your HTML5'))
 	elif len(soup.findAll('head')) == 1:
-		print (htmlconv.toP('Single <code>&lthead&gt</code> section found for page; &#10004'))
+		print (htmlconv.p('Single <code>&lthead&gt</code> section found for page; &#10004'))
 	else:
-		print (htmlconv.toP('You should only have a single <code>&lthead&gt</code> section per page.  You have used more than one on this page'))
+		print (htmlconv.p('You should only have a single <code>&lthead&gt</code> section per page.  You have used more than one on this page'))
 
-	print (htmlconv.toP(('Meta:' + str(len(soup.findAll('meta'))))))
-	print (htmlconv.toP(('Links:' + str(len(soup.findAll('link', href=True))))))
+	print (htmlconv.p(('Meta:' + str(len(soup.findAll('meta'))))))
+	print (htmlconv.p(('Links:' + str(len(soup.findAll('link', href=True))))))
 
 	if len(soup.findAll('nav')) == 0:
-		print (htmlconv.toP('You should have a nav section in your HTML5'))
+		print (htmlconv.p('You should have a nav section in your HTML5'))
 	elif len(soup.findAll('nav')) == 1:
-		print (htmlconv.toP('Single <code>&ltnav&gt</code> section found for page; &#10004'))
+		print (htmlconv.p('Single <code>&ltnav&gt</code> section found for page; &#10004'))
 	else:
-		print (htmlconv.toP('You should only have a single <code>&ltnav&gt</code> tag per page.  You have used more than one on this page') )
+		print (htmlconv.p('You should only have a single <code>&ltnav&gt</code> tag per page.  You have used more than one on this page') )
 
 
 	if len(soup.findAll('article')) == 0:
-		print (htmlconv.toP('You should have <code>&ltarticle&gt</code> tags in your HTML5'))
+		print (htmlconv.p('You should have <code>&ltarticle&gt</code> tags in your HTML5'))
 	elif len(soup.findAll('article')) > 0:
-		print (htmlconv.toP(((str(len(soup.findAll('article'))) + ' HTML5 <code>&ltarticle&gt</code> tags found'))))
+		print (htmlconv.p(((str(len(soup.findAll('article'))) + ' HTML5 <code>&ltarticle&gt</code> tags found'))))
 
 
 	if len(soup.findAll('section')) == 0:
-		print (htmlconv.toP('You should have <code>&ltsection&gt</code> tags in your HTML5'))
+		print (htmlconv.p('You should have <code>&ltsection&gt</code> tags in your HTML5'))
 	elif len(soup.findAll('section')) > 0 and len(soup.findAll('article')) == 0:
-		print (htmlconv.toP('You should not have <code>&ltsection&gt</code> without <code>&ltarticle&gt</code>'))
+		print (htmlconv.p('You should not have <code>&ltsection&gt</code> without <code>&ltarticle&gt</code>'))
 	else:
-		print (htmlconv.toP(((str(len(soup.findAll('section'))) + ' HTML5 <code>&ltsection&gt</code> tags found'))))
+		print (htmlconv.p(((str(len(soup.findAll('section'))) + ' HTML5 <code>&ltsection&gt</code> tags found'))))
 
 	if len(soup.findAll('footer')) == 0:
-		print (htmlconv.toP('You should have a <code>&ltfooter&gt</code> section in your HTML5'))
+		print (htmlconv.p('You should have a <code>&ltfooter&gt</code> section in your HTML5'))
 	elif len(soup.findAll('footer')) == 1:
-		print (htmlconv.toP('Single <code>&ltfooter&gt</code> section found for page; &#10004'))
+		print (htmlconv.p('Single <code>&ltfooter&gt</code> section found for page; &#10004'))
 	else:
-		print (htmlconv.toP('You should only have a single <code>&ltfooter&gt</code> section per page.  You have used more than one on this page'))
+		print (htmlconv.p('You should only have a single <code>&ltfooter&gt</code> section per page.  You have used more than one on this page'))
 
 
 	numBR += len(soup.findAll('br'))
@@ -154,41 +177,47 @@ while len(urls) > 0:
 	numI += len(soup.findAll('i'))
 
 
-	print (htmlconv.toH2('Images and Iframes'))
+	print (htmlconv.h2('Images and Iframes'))
 
 	if len(soup.findAll('img', title=False))>0:
 		images = soup.findAll('img', title=False)
-		print (htmlconv.toH3('NO TITLE FOUND ON THE FOLLOWING IMAGES'))
+		print (htmlconv.h3('NO TITLE FOUND ON THE FOLLOWING IMAGES'))
 		printImages(images)
 
 	if len(soup.findAll('img', alt=False))>0:	
 		images = soup.findAll('img', alt=False)
-		print (htmlconv.toH3('NO ALT FOUND ON THE FOLLOWING IMAGES'))
+		print (htmlconv.h3('NO ALT FOUND ON THE FOLLOWING IMAGES'))
 		printImages(images)
 
 	if len(soup.findAll('img', src=False))>0:		
 		images = soup.findAll('img', src=False)
-		print (htmlconv.toH3('NO SOURCE FOUND ON THE FOLLOWING IMAGES'))
+		print (htmlconv.h3('NO SOURCE FOUND ON THE FOLLOWING IMAGES'))
 		printImages(images)
 
 	if len(soup.findAll('img', width=True))>0:
 		images = soup.findAll('img', width=True)
-		print (htmlconv.toH3('WIDTH SET ON THE FOLLOWING IMAGES'))
+		print (htmlconv.h3('WIDTH SET ON THE FOLLOWING IMAGES'))
 		printImages(images)
 
 	if len(soup.findAll('img', height=True))>0:	
 		images = soup.findAll('img', height=True)
-		print (htmlconv.toH3('HEIGHT SET ON THE FOLLOWING IMAGES'))
+		print (htmlconv.h3('HEIGHT SET ON THE FOLLOWING IMAGES'))
 		printImages(images)
+	
+	print('*****************************************')
+	result = paramTest.tagTest(htmltext, 'img', 'height', True, 'HEIGHT SET ON THE FOLLOWING IMAGES')
+	print(result)
+	print('*****************************************')
+
 
 	if len(soup.findAll('iframe', width=True))>0:
 		images = soup.findAll('iframe', width=True)
-		print (htmlconv.toH3('IFRAME WIDTH SET ON THE FOLLOWING'))
+		print (htmlconv.h3('IFRAME WIDTH SET ON THE FOLLOWING'))
 		printImages(images)
 
 	if len(soup.findAll('iframe', height=True))>0:	
 		images = soup.findAll('iframe', height=True)
-		print (htmlconv.toH3('IFRAME HEIGHT SET ON THE FOLLOWING'))
+		print (htmlconv.h3('IFRAME HEIGHT SET ON THE FOLLOWING'))
 		printImages(images)
 
 	numSVG += len(soup.findAll('svg'))
@@ -204,13 +233,12 @@ while len(urls) > 0:
 	numOnmouseUp += len(soup.findAll(onmouseup=True))
 	numOnBlur += len(soup.findAll(onblur=True))
 
-	#result = paramTest.test(htmltext, 'img', 'title', False)
-	#print(result)
-	#print('*****************************************')
 
-print (htmlconv.toH1('Site Wide Results'))
 
-print (htmlconv.toH2('Amalgamated Results for other Items'))
+
+print (htmlconv.h1('Site Wide Results'))
+
+print (htmlconv.h2('Amalgamated Results for other Items'))
 
 print (htmlconv.siteCounts('br', numBR))
 print (htmlconv.siteCounts('i', numI))
@@ -222,7 +250,7 @@ print (htmlconv.siteCounts('iframe', numIFRAME))
 print (htmlconv.siteCounts('video', numVIDEO))
 print (htmlconv.siteCounts('audio', numAUDIO))
 
-print (htmlconv.toH2('Listeners implemented in HTML'))
+print (htmlconv.h2('Listeners implemented in HTML'))
 print (htmlconv.siteEventCounts('onmouseover', numMouseOvers))
 print (htmlconv.siteEventCounts('onmouseout', numMouseouts))
 print (htmlconv.siteEventCounts('onclick', numOnclick))
@@ -231,7 +259,7 @@ print (htmlconv.siteEventCounts('onmouseup', numOnmouseUp))
 print (htmlconv.siteEventCounts('onmblur', numOnBlur))
 
 
-print (htmlconv.toH1('End of Report'))
+print (htmlconv.h1('End of Report'))
 
 
 # need to be very careful with this.  If it hits something like facebook, it is gone!!!

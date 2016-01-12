@@ -1,19 +1,19 @@
 import html
 
 
-def toH1(msg):
+def h1(msg):
 	return '<h1>' + msg + '</h1>'
 
-def toH2(msg):
+def h2(msg):
 	return '<h2>' + msg + '</h2>'
 
-def toH3(msg):
+def h3(msg):
 	return '<h3>' + msg + '</h3>'
 
-def toH4(msg):
+def h4(msg):
 	return '<h4>' + msg + '</h4>'
 
-def toP(msg):
+def p(msg):
 	return '<p>' + msg + '</p>'
 
 def imageHandler(image):
