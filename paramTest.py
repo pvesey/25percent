@@ -1,12 +1,15 @@
+import htmlconv
 from bs4 import BeautifulSoup as _BeautifulSoup
 
 def tagTest(htmlText, tag, condition, value, message):
 	soup = _BeautifulSoup(htmlText)
-	
-	if len(soup.findAll(tag, condition=value))>0:
+
+	print('IN PARAMTEST *************')
+	if len(soup.findAll(tag, condition=True))>0:
 		images = soup.findAll('img', height=True)
-		print (htmlconv.toH3(message))
-		printImages(images)
+		print (htmlconv.h3(message))
+		for image in images:
+			print (htmlconv.imageHandler(image))
 		return True
 	else:
 		return False

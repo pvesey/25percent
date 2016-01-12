@@ -95,18 +95,12 @@ print(htmlconv.p(sitestructure.folder(url, 'js')))
 print(htmlconv.p(sitestructure.folder(url, 'stylesheet')))
 print(htmlconv.p(sitestructure.folder(url, 'img')))
 print(htmlconv.p(sitestructure.folder(url, 'font')))
+print(htmlconv.p(sitestructure.folder(url, 'audio')))
+print(htmlconv.p(sitestructure.folder(url, 'video')))
 
 print(htmlconv.p(sitestructure.indexfile(url)))
 
-
-
-
-
-
-
-
-
-
+print(htmlconv.p(sitestructure.favicon(url)))
 
 
 while len(urls) > 0:
@@ -204,10 +198,10 @@ while len(urls) > 0:
 		print (htmlconv.h3('HEIGHT SET ON THE FOLLOWING IMAGES'))
 		printImages(images)
 	
-	print('*****************************************')
+	print('*****************************************`<br>')
 	result = paramTest.tagTest(htmltext, 'img', 'height', True, 'HEIGHT SET ON THE FOLLOWING IMAGES')
 	print(result)
-	print('*****************************************')
+	print('<br>*****************************************')
 
 
 	if len(soup.findAll('iframe', width=True))>0:
@@ -256,7 +250,7 @@ print (htmlconv.siteEventCounts('onmouseout', numMouseouts))
 print (htmlconv.siteEventCounts('onclick', numOnclick))
 print (htmlconv.siteEventCounts('onmousedown', numOnmouseDown))
 print (htmlconv.siteEventCounts('onmouseup', numOnmouseUp))
-print (htmlconv.siteEventCounts('onmblur', numOnBlur))
+print (htmlconv.siteEventCounts('onblur', numOnBlur))
 
 
 print (htmlconv.h1('End of Report'))
