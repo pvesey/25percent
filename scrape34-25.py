@@ -6,7 +6,7 @@
 # you if you mess with it.
 
 import sys
-
+import urllib
 from urllib.parse import urlparse
 from urllib.parse import urljoin
 from urllib.request import urlopen
@@ -89,10 +89,14 @@ output.append(htmlconv.p(sitestructure.file(url, 'favicon.ico')))
 while len(urls) > 0:
 	try:
 		htmltext = urlopen(urls[0]).read()
+	except urllib.error.HTTPError as err:
+		output.append(htmlconv.h1error('Link Scan Error: '))
+		output.append(htmlconv.p(urls[0] + ' ' + str(err)))
+		urls.pop(0)
+		continue
 	except:
-
-		print ('Problem with Code')
-		print (urls[0])
+		output.append(htmlconv.h1('Unknown Program Error'))
+		continue
 
 	soup = BeautifulSoup(htmltext)
 
@@ -113,7 +117,7 @@ while len(urls) > 0:
 	if len(soup.findAll('head')) == 0:
 		output.append(htmlconv.perror('You should have a <code>&lthead&gt</code> section in your HTML5'))
 	elif len(soup.findAll('head')) == 1:
-		output.append(htmlconv.p('Single <code>&lthead&gt</code> section found for page; &#10004'))
+		output.append(htmlconv.psuccess('Single <code>&lthead&gt</code> section found for page; &#10004'))
 	else:
 		output.append(htmlconv.perror('You should only have a single <code>&lthead&gt</code> section per page.  You have used more than one on this page'))
 
@@ -123,7 +127,7 @@ while len(urls) > 0:
 	if len(soup.findAll('nav')) == 0:
 		output.append(htmlconv.perror('You should have a nav section in your HTML5'))
 	elif len(soup.findAll('nav')) == 1:
-		output.append(htmlconv.p('Single <code>&ltnav&gt</code> section found for page; &#10004'))
+		output.append(htmlconv.psuccess('Single <code>&ltnav&gt</code> section found for page; &#10004'))
 	else:
 		output.append(htmlconv.perror('You should only have a single <code>&ltnav&gt</code> tag per page.  You have used more than one on this page') )
 
@@ -144,7 +148,7 @@ while len(urls) > 0:
 	if len(soup.findAll('footer')) == 0:
 		output.append(htmlconv.perror('You should have a <code>&ltfooter&gt</code> section in your HTML5'))
 	elif len(soup.findAll('footer')) == 1:
-		output.append(htmlconv.p('Single <code>&ltfooter&gt</code> section found for page; &#10004'))
+		output.append(htmlconv.psuccess('Single <code>&ltfooter&gt</code> section found for page; &#10004'))
 	else:
 		output.append(htmlconv.perror('You should only have a single <code>&ltfooter&gt</code> section per page.  You have used more than one on this page'))
 
