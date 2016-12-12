@@ -74,10 +74,15 @@ output.seed25()
 
 output.append(htmlconv.h1('Site Folder Structure'))
 output.append(sitestructure.folder(url, 'style'))
-output.append(sitestructure.folder(url, 'js'))
 output.append(sitestructure.folder(url, 'stylesheet'))
+output.append(sitestructure.folder(url, 'css'))
+output.append(sitestructure.folder(url, 'js'))
 output.append(sitestructure.folder(url, 'img'))
+output.append(sitestructure.folder(url, 'images'))
+output.append(sitestructure.folder(url, 'pics'))
+
 output.append(sitestructure.folder(url, 'font'))
+output.append(sitestructure.folder(url, 'fonts'))
 output.append(sitestructure.folder(url, 'audio'))
 output.append(sitestructure.folder(url, 'video'))
 
@@ -98,7 +103,7 @@ while len(urls) > 0:
 		output.append(htmlconv.h1('Unknown Program Error'))
 		continue
 
-	soup = BeautifulSoup(htmltext)
+	soup = BeautifulSoup(htmltext, "html.parser")
 
 	output.append(htmlconv.h1(('Scanning URL ' + str(urls[0]))))
 
