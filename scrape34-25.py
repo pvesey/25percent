@@ -35,7 +35,7 @@ filename = str(filename[-1]) + '.html'
 output = Ofile(filename, '')
 
 
-urls = [url] 
+urls = [url]
 visited = [url]
 svgs = []
 canvas = []
@@ -69,6 +69,7 @@ def printImages(images):
 
 output.append(htmlconv.style())
 
+# Set to either seed25() or seed50() to setup the marking scheme
 output.seed25()
 
 
@@ -109,7 +110,7 @@ while len(urls) > 0:
 
 	urls.pop(0)
 
-	# DO NOT MESS WITH THIS FOR LOOP; IF YOU GET IT WRONG IT CAN ESCAPE YOUR URL AND 
+	# DO NOT MESS WITH THIS FOR LOOP; IF YOU GET IT WRONG IT CAN ESCAPE YOUR URL AND
 	# GO INTO THE WILD.  YOU ARE WARNED..
 	for tag in soup.findAll('a', href=True):
 		tag['href'] = urljoin(url, tag['href'])
@@ -170,12 +171,12 @@ while len(urls) > 0:
 		output.append(htmlconv.h3error('NO TITLE FOUND ON THE FOLLOWING IMAGES'))
 		printImages(images)
 
-	if len(soup.findAll('img', alt=False))>0:	
+	if len(soup.findAll('img', alt=False))>0:
 		images = soup.findAll('img', alt=False)
 		output.append(htmlconv.h3error('NO ALT FOUND ON THE FOLLOWING IMAGES'))
 		printImages(images)
 
-	if len(soup.findAll('img', src=False))>0:		
+	if len(soup.findAll('img', src=False))>0:
 		images = soup.findAll('img', src=False)
 		output.append(htmlconv.h3error('NO SOURCE FOUND ON THE FOLLOWING IMAGES'))
 		printImages(images)
@@ -185,7 +186,7 @@ while len(urls) > 0:
 		output.append(htmlconv.h3error('WIDTH SET ON THE FOLLOWING IMAGES'))
 		printImages(images)
 
-	if len(soup.findAll('img', height=True))>0:	
+	if len(soup.findAll('img', height=True))>0:
 		images = soup.findAll('img', height=True)
 		output.append(htmlconv.h3error('HEIGHT SET ON THE FOLLOWING IMAGES'))
 		printImages(images)
@@ -195,7 +196,7 @@ while len(urls) > 0:
 		output.append(htmlconv.h3error('IFRAME WIDTH SET ON THE FOLLOWING'))
 		printImages(images)
 
-	if len(soup.findAll('iframe', height=True))>0:	
+	if len(soup.findAll('iframe', height=True))>0:
 		images = soup.findAll('iframe', height=True)
 		output.append(htmlconv.h3error('IFRAME HEIGHT SET ON THE FOLLOWING'))
 		printImages(images)
@@ -240,6 +241,3 @@ output.append(htmlconv.h1('End of Report'))
 
 
 output.writeout()
-
-
-# need to be very careful with this.  If it hits something like facebook, it is gone!!!
