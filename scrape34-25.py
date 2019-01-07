@@ -23,6 +23,10 @@ from assignmentTests import assignmentTests
 import types
 from soupHelper import soupHelper
 
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support import expected_conditions as EC
+
 
 commandLine = argparse.ArgumentParser(description='Run HTML5 Scan on Website, Paul Vesey 2014')
 commandLine.add_argument('URL', help='full URL, including http:// of site to scan')
@@ -76,7 +80,7 @@ def printImages(images):
 output.append(htmlconv.style())
 
 # Set to either seed25() or seed50() to setup the marking scheme
-output.seed25()
+output.seed50()
 
 
 output.append(htmlconv.makeHTML('h1', 'Site Folder Structure'))
@@ -101,6 +105,7 @@ output.append(htmlconv.p(sitestructure.file(url, 'favicon.ico')))
 while len(urls) > 0:
 	try:
 		htmltext = urlopen(urls[0]).read()
+
 	except urllib.error.HTTPError as err:
 		output.append(htmlconv.makeHTML('h1', 'Link Scan Error: ', 'error'))
 		output.append(htmlconv.p(urls[0] + ' ' + str(err)))
@@ -123,8 +128,29 @@ while len(urls) > 0:
 	soup.imageWidth = types.MethodType(soupHelper.imageWidth, soup)
 	soup.imageHeight = types.MethodType(soupHelper.imageHeight, soup)
 
+	# Adding some selenium in here for a future check on Forms
+	# note that the driver needs to be on your path
 
 	output.append(htmlconv.h1(('Scanning URL ' + str(urls[0]))))
+
+	driver = webdriver.Chrome()
+	driver.get(str(urls[0]))
+	#assert "Astronomy Ireland" in driver.title
+	#if "Astronomy Ireland" in driver.title:
+	if EC.alert_is_present():
+		print('Alert Detected ' + str(urls[0]))
+
+		try:
+			#driver.switch_to.accept()
+			driver.switch_to.alert.accept()
+			#driver.sendkeys('Text Sent')
+			#driver.accept()
+		except Exception as e:
+			print('Exception')
+		print('Alert Accepted ' + str(urls[0]))
+
+	output.append(htmlconv.makeHTML('h2', ('Page Title: ' + driver.title)))
+	driver.close()
 
 	urls.pop(0)
 

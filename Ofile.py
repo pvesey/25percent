@@ -59,8 +59,6 @@ class Ofile:
 
 	def seed50(self):
 
-		self.text += htmlconv.toH1('Overall Result - xx%')
-
 		self.text += ("<table class='table'>" + "\n")
 		self.text += ('<tr>' + '\n')
 		self.text += ('  <th>Element</th>' + '\n')
