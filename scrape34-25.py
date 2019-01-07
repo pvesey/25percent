@@ -19,6 +19,7 @@ from Ofile import Ofile
 import argparse
 from bs4 import BeautifulSoup
 from assignmentTests import assignmentTests
+from OOPAssignmentTests import OOPAssignmentTests
 
 
 commandLine = argparse.ArgumentParser(description='Run HTML5 Scan on Website, Paul Vesey 2014')
@@ -108,6 +109,9 @@ while len(urls) > 0:
 		continue
 
 	soup = BeautifulSoup(htmltext, "html.parser")
+
+	#oopSoup = OOPAssignmentTests()
+	print(soup.testHead())
 
 	output.append(htmlconv.h1(('Scanning URL ' + str(urls[0]))))
 
