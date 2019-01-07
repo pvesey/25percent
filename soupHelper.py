@@ -1,25 +1,21 @@
-from bs4.element import Tag
-import htmlconv
-
-
-class OOPAssignmentTests(Tag):
-    """docstring for OOPAssignmentTests."""
+class soupHelper():
+    """docstring for soupHelper."""
     def __init__(self):
         super().__init__(self)
 
-    def testHead(self):
+    def countHead(self):
         return len(self.findAll('head'))
 
-    def testNav(self):
+    def countNav(self):
         return len(self.findAll('nav'))
 
-    def testArticle(self):
+    def countArticle(self):
         return len(self.findAll('article'))
 
-    def testSection(self):
+    def countSection(self):
         return len(self.findAll('section'))
 
-    def testFooter(self):
+    def countFooter(self):
         return len(self.findAll('footer'))
 
     def imageTitle(self):

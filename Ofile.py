@@ -53,9 +53,9 @@ class Ofile:
 
 		self.text += ('</table>' + '\n')
 
-		itest = htmlBuilder('builder.html')
-		print(itest)
-		itest.writeHTML()
+		#itest = htmlBuilder('builder.html')
+		#print(itest)
+		#itest.writeHTML()
 
 	def seed50(self):
 

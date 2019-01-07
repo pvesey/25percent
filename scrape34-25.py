@@ -19,7 +19,9 @@ from Ofile import Ofile
 import argparse
 from bs4 import BeautifulSoup
 from assignmentTests import assignmentTests
-from OOPAssignmentTests import OOPAssignmentTests
+
+import types
+from soupHelper import soupHelper
 
 
 commandLine = argparse.ArgumentParser(description='Run HTML5 Scan on Website, Paul Vesey 2014')
@@ -109,9 +111,18 @@ while len(urls) > 0:
 		continue
 
 	soup = BeautifulSoup(htmltext, "html.parser")
+	# adding a bunch of methods to the BeautifulSoup object
+	soup.countHead = types.MethodType(soupHelper.countHead, soup)
+	soup.countNav = types.MethodType(soupHelper.countNav, soup)
+	soup.countArticle = types.MethodType(soupHelper.countArticle, soup)
+	soup.countSection = types.MethodType(soupHelper.countSection, soup)
+	soup.countFooter = types.MethodType(soupHelper.countFooter, soup)
+	soup.imageTitle = types.MethodType(soupHelper.imageTitle, soup)
+	soup.imageAlt = types.MethodType(soupHelper.imageAlt, soup)
+	soup.imageSource = types.MethodType(soupHelper.imageSource, soup)
+	soup.imageWidth = types.MethodType(soupHelper.imageWidth, soup)
+	soup.imageHeight = types.MethodType(soupHelper.imageHeight, soup)
 
-	#oopSoup = OOPAssignmentTests()
-	print(soup.testHead())
 
 	output.append(htmlconv.h1(('Scanning URL ' + str(urls[0]))))
 

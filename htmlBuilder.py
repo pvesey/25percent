@@ -13,7 +13,7 @@ class htmlBuilder():
         top_element.appendChild(head)
         #self.document.appendChild('body')
 
-        print(self.document.toxml())
+        #print(self.document.toxml())
 
         # raise Exception("This is an exception")
 
