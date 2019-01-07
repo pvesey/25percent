@@ -18,9 +18,12 @@ import sitestructure
 from Ofile import Ofile
 import argparse
 from bs4 import BeautifulSoup
+from assignmentTests import assignmentTests
+
 
 commandLine = argparse.ArgumentParser(description='Run HTML5 Scan on Website, Paul Vesey 2014')
 commandLine.add_argument('URL', help='full URL, including http:// of site to scan')
+commandLine.add_argument('--debug ', help='debug mode')
 
 inputs = commandLine.parse_args()
 url = inputs.URL
@@ -73,7 +76,7 @@ output.append(htmlconv.style())
 output.seed25()
 
 
-output.append(htmlconv.h1('Site Folder Structure'))
+output.append(htmlconv.makeHTML('h1', 'Site Folder Structure'))
 output.append(sitestructure.folder(url, 'style'))
 output.append(sitestructure.folder(url, 'stylesheet'))
 output.append(sitestructure.folder(url, 'css'))
@@ -87,7 +90,7 @@ output.append(sitestructure.folder(url, 'fonts'))
 output.append(sitestructure.folder(url, 'audio'))
 output.append(sitestructure.folder(url, 'video'))
 
-output.append(htmlconv.h1('Specific Site Files'))
+output.append(htmlconv.makeHTML('h1', 'Specific Site Files'))
 output.append(htmlconv.p(sitestructure.file(url, 'index.html')))
 output.append(htmlconv.p(sitestructure.file(url, 'favicon.ico')))
 
@@ -96,12 +99,12 @@ while len(urls) > 0:
 	try:
 		htmltext = urlopen(urls[0]).read()
 	except urllib.error.HTTPError as err:
-		output.append(htmlconv.h1error('Link Scan Error: '))
+		output.append(htmlconv.makeHTML('h1', 'Link Scan Error: ', 'error'))
 		output.append(htmlconv.p(urls[0] + ' ' + str(err)))
 		urls.pop(0)
 		continue
 	except:
-		output.append(htmlconv.h1('Unknown Program Error'))
+		output.append(htmlconv.makeHTML('h1', 'Unknown Program Error'))
 		continue
 
 	soup = BeautifulSoup(htmltext, "html.parser")
@@ -118,45 +121,17 @@ while len(urls) > 0:
 			urls.append(tag['href'])
 			visited.append(tag['href'])
 
-	output.append(htmlconv.h2('HTML Structure'))
+	output.append(htmlconv.makeHTML('h2', 'HTML Structure'))
 
-	if len(soup.findAll('head')) == 0:
-		output.append(htmlconv.perror('You should have a <code>&lthead&gt</code> section in your HTML5'))
-	elif len(soup.findAll('head')) == 1:
-		output.append(htmlconv.psuccess('Single <code>&lthead&gt</code> section found for page; &#10004'))
-	else:
-		output.append(htmlconv.perror('You should only have a single <code>&lthead&gt</code> section per page.  You have used more than one on this page'))
+	output.append(assignmentTests.testHead(soup))
+	output.append(assignmentTests.testNav(soup))
+	output.append(assignmentTests.testArticle(soup))
+	output.append(assignmentTests.testSection(soup))
+	output.append(assignmentTests.testFooter(soup))
+
 
 	output.append(htmlconv.p(('Meta:' + str(len(soup.findAll('meta'))))))
 	output.append(htmlconv.p(('Links:' + str(len(soup.findAll('link', href=True))))))
-
-	if len(soup.findAll('nav')) == 0:
-		output.append(htmlconv.perror('You should have a nav section in your HTML5'))
-	elif len(soup.findAll('nav')) == 1:
-		output.append(htmlconv.psuccess('Single <code>&ltnav&gt</code> section found for page; &#10004'))
-	else:
-		output.append(htmlconv.perror('You should only have a single <code>&ltnav&gt</code> tag per page.  You have used more than one on this page') )
-
-
-	if len(soup.findAll('article')) == 0:
-		output.append(htmlconv.perror('You should have <code>&ltarticle&gt</code> tags in your HTML5'))
-	elif len(soup.findAll('article')) > 0:
-		output.append(htmlconv.p(((str(len(soup.findAll('article'))) + ' HTML5 <code>&ltarticle&gt</code> tags found'))))
-
-
-	if len(soup.findAll('section')) == 0:
-		output.append(htmlconv.perror('You should have <code>&ltsection&gt</code> tags in your HTML5'))
-	elif len(soup.findAll('section')) > 0 and len(soup.findAll('article')) == 0:
-		output.append(htmlconv.perror('You should not have <code>&ltsection&gt</code> without <code>&ltarticle&gt</code>'))
-	else:
-		output.append(htmlconv.p(((str(len(soup.findAll('section'))) + ' HTML5 <code>&ltsection&gt</code> tags found'))))
-
-	if len(soup.findAll('footer')) == 0:
-		output.append(htmlconv.perror('You should have a <code>&ltfooter&gt</code> section in your HTML5'))
-	elif len(soup.findAll('footer')) == 1:
-		output.append(htmlconv.psuccess('Single <code>&ltfooter&gt</code> section found for page; &#10004'))
-	else:
-		output.append(htmlconv.perror('You should only have a single <code>&ltfooter&gt</code> section per page.  You have used more than one on this page'))
 
 
 	numBR += len(soup.findAll('br'))
@@ -164,41 +139,23 @@ while len(urls) > 0:
 	numI += len(soup.findAll('i'))
 
 
-	output.append(htmlconv.h2('Images and Iframes'))
+	output.append(htmlconv.makeHTML('h2', 'Images and Iframes'))
 
-	if len(soup.findAll('img', title=False))>0:
-		images = soup.findAll('img', title=False)
-		output.append(htmlconv.h3error('NO TITLE FOUND ON THE FOLLOWING IMAGES'))
-		printImages(images)
+	output.append(assignmentTests.imageTitle(soup))
+	output.append(assignmentTests.imageAlt(soup))
+	output.append(assignmentTests.imageSource(soup))
+	output.append(assignmentTests.imageHeight(soup))
+	output.append(assignmentTests.imageWidth(soup))
 
-	if len(soup.findAll('img', alt=False))>0:
-		images = soup.findAll('img', alt=False)
-		output.append(htmlconv.h3error('NO ALT FOUND ON THE FOLLOWING IMAGES'))
-		printImages(images)
-
-	if len(soup.findAll('img', src=False))>0:
-		images = soup.findAll('img', src=False)
-		output.append(htmlconv.h3error('NO SOURCE FOUND ON THE FOLLOWING IMAGES'))
-		printImages(images)
-
-	if len(soup.findAll('img', width=True))>0:
-		images = soup.findAll('img', width=True)
-		output.append(htmlconv.h3error('WIDTH SET ON THE FOLLOWING IMAGES'))
-		printImages(images)
-
-	if len(soup.findAll('img', height=True))>0:
-		images = soup.findAll('img', height=True)
-		output.append(htmlconv.h3error('HEIGHT SET ON THE FOLLOWING IMAGES'))
-		printImages(images)
 
 	if len(soup.findAll('iframe', width=True))>0:
 		images = soup.findAll('iframe', width=True)
-		output.append(htmlconv.h3error('IFRAME WIDTH SET ON THE FOLLOWING'))
+		output.append(htmlconv.makeHTML('h3', 'IFRAME WIDTH SET ON THE FOLLOWING', 'text-danger'))
 		printImages(images)
 
 	if len(soup.findAll('iframe', height=True))>0:
 		images = soup.findAll('iframe', height=True)
-		output.append(htmlconv.h3error('IFRAME HEIGHT SET ON THE FOLLOWING'))
+		output.append(htmlconv.makeHTML('h3', 'IFRAME HEIGHT SET ON THE FOLLOWING', 'text-danger'))
 		printImages(images)
 
 	numSVG += len(soup.findAll('svg'))
@@ -214,9 +171,9 @@ while len(urls) > 0:
 	numOnmouseUp += len(soup.findAll(onmouseup=True))
 	numOnBlur += len(soup.findAll(onblur=True))
 
-output.append(htmlconv.h1('Site Wide Results'))
+output.append(htmlconv.makeHTML('h1', 'Site Wide Results'))
 
-output.append(htmlconv.h2('Amalgamated Results for other Items'))
+output.append(htmlconv.makeHTML('h2', 'Amalgamated Results for other Items'))
 
 output.append(htmlconv.siteCounts('br', numBR))
 output.append(htmlconv.siteCounts('i', numI))
@@ -228,7 +185,7 @@ output.append(htmlconv.siteCounts('iframe', numIFRAME))
 output.append(htmlconv.siteCounts('video', numVIDEO))
 output.append(htmlconv.siteCounts('audio', numAUDIO))
 
-output.append(htmlconv.h2('Listeners implemented in HTML'))
+output.append(htmlconv.makeHTML('h2', 'Listeners implemented in HTML (bad practice..)'))
 output.append(htmlconv.siteEventCounts('onmouseover', numMouseOvers))
 output.append(htmlconv.siteEventCounts('onmouseout', numMouseouts))
 output.append(htmlconv.siteEventCounts('onclick', numOnclick))
@@ -237,7 +194,7 @@ output.append(htmlconv.siteEventCounts('onmouseup', numOnmouseUp))
 output.append(htmlconv.siteEventCounts('onblur', numOnBlur))
 
 
-output.append(htmlconv.h1('End of Report'))
+output.append(htmlconv.makeHTML('h1', 'End of Report'))
 
 
 output.writeout()

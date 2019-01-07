@@ -1,7 +1,15 @@
 import html
 
+def makeHTML(tag, msg, style = ''):
+	if style != '':
+		style = 'class="' + style + '"'
+		return('<' + tag + ' ' + style +  '>' + msg + '</' + tag + '>')
+	else:
+		return('<' + tag + '>' + msg + '</' + tag + '>')
+
+
 def style():
-	return("<style> .error{color: red;} .success{color: green;}</style>")
+	return('<style> .error{color: red;} .success{color: green;}</style><link href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">')
 
 
 def h1(msg):
@@ -37,7 +45,7 @@ def p(msg):
 def perror(msg):
 	return '<p class="error">' + msg + '</p>'
 def psuccess(msg):
-	return '<p class="success">' + msg + '</p>'	
+	return '<p class="success">' + msg + '</p>'
 
 def imageHandler(image):
 	return '<p><code>' + html.escape(str(image)) + '</code></p>'
