@@ -23,11 +23,7 @@ from assignmentTests import assignmentTests
 import types
 from soupHelper import soupHelper
 
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
-
+from sel_tests import selenium_tests
 
 commandLine = argparse.ArgumentParser(description='Run HTML5 Scan on Website, Paul Vesey 2014')
 commandLine.add_argument('URL', help='full URL, including http:// of site to scan')
@@ -35,8 +31,6 @@ commandLine.add_argument('--debug ', help='debug mode')
 
 inputs = commandLine.parse_args()
 url = inputs.URL
-
-#url = commandLine.parse_args()
 
 #first check is the structure.
 filename = url[:-1]
@@ -135,38 +129,31 @@ while len(urls) > 0:
 
 	output.append(htmlconv.h1(('Scanning URL ' + str(urls[0]))))
 
-	driver = webdriver.Chrome(desired_capabilities=DesiredCapabilities.CHROME)
-	driver.get(str(urls[0]))
 	#assert "Astronomy Ireland" in driver.title
 	#if "Astronomy Ireland" in driver.title:
-	if EC.alert_is_present():
-		print('Alert Detected ' + str(urls[0]))
-		try:
+#	if EC.alert_is_present():
+#		print('Alert Detected ' + str(urls[0]))
+#		try:
 			#driver.switch_to.accept()
-			driver.switch_to.alert.accept()
-			print('Alert Accepted ' + str(urls[0]))
+#			driver.switch_to.alert.accept()
+#			print('Alert Accepted ' + str(urls[0]))
 			#driver.sendkeys('Text Sent')
 			#driver.accept()
-		except Exception as e:
-			print('Alert Exception')
+#		except Exception as e:
+#			print('Alert Exception')
 
-	largeImage = imageName + str(len(urls)) + '_large.png'
-	smallImage = imageName + str(len(urls)) + '_small.png'
-	driver.set_window_size(1024,768)
-	driver.save_screenshot((largeImage))
-	driver.set_window_size(500,400)
-	driver.save_screenshot(smallImage)
-	print(driver.get_cookies())
-	#print(driver.log_types)
-	print(driver.get_log('browser'))
+#	print(driver.get_cookies())
+#	#print(driver.log_types)
+#	print(driver.get_log('browser'))
 
-	output.append("<img src='" + largeImage + "' width='50%' >" )
-	output.append("<img src='" + smallImage + "' width='50%' >" )
 
-	output.append(htmlconv.makeHTML('h2', ('Page Title: ' + driver.title)))
-	output.append(htmlconv.makeHTML('p', ('Page Cookies: ' + str(driver.get_cookies()))))
+	stest = selenium_tests(str(urls[0]))
+	stest.test_contact_page()
+	print("Cookies Found") if stest.test_has_cookies() else print("No Cookies")
+	print("localStorage Found") if stest.test_has_localStorage() else print("No localStorage")
 
-	driver.close()
+	stest.close()
+
 
 	urls.pop(0)
 
@@ -250,8 +237,5 @@ output.append(htmlconv.siteEventCounts('onmousedown', numOnmouseDown))
 output.append(htmlconv.siteEventCounts('onmouseup', numOnmouseUp))
 output.append(htmlconv.siteEventCounts('onblur', numOnBlur))
 
-
 output.append(htmlconv.makeHTML('h1', 'End of Report'))
-
-
 output.writeout()
