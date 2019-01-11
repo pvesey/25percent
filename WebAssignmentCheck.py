@@ -27,10 +27,13 @@ from sel_tests import selenium_tests
 
 commandLine = argparse.ArgumentParser(description='Run HTML5 Scan on Website, Paul Vesey 2014')
 commandLine.add_argument('URL', help='full URL, including http:// of site to scan')
+commandLine.add_argument('assignment', help='50 or 25 depending on assignment')
 commandLine.add_argument('--debug ', help='debug mode')
+
 
 inputs = commandLine.parse_args()
 url = inputs.URL
+assignmentCode = inputs.assignment
 
 #first check is the structure.
 filename = url[:-1]
@@ -51,6 +54,7 @@ footer = []
 nav = []
 meta = []
 links = []
+
 
 numSVG = 0
 numCanvas = 0
@@ -76,8 +80,14 @@ def printImages(images):
 output.append(htmlconv.style())
 
 # Set to either seed25() or seed50() to setup the marking scheme
-output.seed50()
 
+if assignmentCode == 50:
+	output.seed50()
+elif assignmentCode == 25:
+	output.seed25()
+else:
+	print("Invalid option for Assignment")
+	quit()
 
 output.append(htmlconv.makeHTML('h1', 'Site Folder Structure'))
 output.append(sitestructure.folder(url, 'style'))
