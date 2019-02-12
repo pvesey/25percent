@@ -81,9 +81,9 @@ output.append(htmlconv.style())
 
 # Set to either seed25() or seed50() to setup the marking scheme
 
-if assignmentCode == 50:
+if assignmentCode == '50':
 	output.seed50()
-elif assignmentCode == 25:
+elif assignmentCode == '25':
 	output.seed25()
 else:
 	print("Invalid option for Assignment")
@@ -157,12 +157,12 @@ while len(urls) > 0:
 #	print(driver.get_log('browser'))
 
 
-	stest = selenium_tests(str(urls[0]))
-	stest.test_contact_page()
-	print("Cookies Found") if stest.test_has_cookies() else print("No Cookies")
-	print("localStorage Found") if stest.test_has_localStorage() else print("No localStorage")
+#	stest = selenium_tests(str(urls[0]))
+#	stest.test_contact_page()
+#	print("Cookies Found") if stest.test_has_cookies() else print("No Cookies")
+#	print("localStorage Found") if stest.test_has_localStorage() else print("No localStorage")
 
-	stest.close()
+#	stest.close()
 
 
 	urls.pop(0)

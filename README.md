@@ -6,3 +6,8 @@ It requires Python 3 and the BeautifulSoup library.
 You can also use the Python simple HTTP server by invoking the command below from the command line.
 
 `python -m http.server 8000 --bind 127.0.0.1`
+
+The applicaiton will require selenium install using `pip install selenium`.
+
+You will also need a webdriver; the Chrome Webdriver has been hardcoded.
+
