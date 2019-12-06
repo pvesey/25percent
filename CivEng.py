@@ -110,3 +110,143 @@ Iy = ((a*b*m.sin(theta)*(b + (a*m.cos(theta))**2))/3) - (a**2 * b**2 * m.sin(the
 print(A, Xc, Yc, Ixc, Iyc, Ic, Iy)
 
 
+
+#PAGE 2 Circle Stuff
+## First Image
+a = 1.2
+
+A = m.pi()*a**2
+Xc = a
+Yc = a
+
+Ixc = (m.pi()*a**4)/4
+
+Iyc = (m.pi()*a**4)/4 
+
+Ic = (5*m.pi()*a**4)/4
+
+Iy = (5*m.pi()*a**4)/4
+
+J = (m.pi()*a**4)/2
+
+print(A, Xc, Yc, Ixc, Iyc, Ic, Iy, J)
+
+
+
+## Second Image
+a = 3.1
+b= 3.0
+
+A = m.pi()*(a**2 - b**2)
+Xc = a
+Yc = a
+
+Ixc = (m.pi()*(a**4 - b**4))/4
+
+Iyc = (m.pi()*(a**4 - b**4))/4 
+
+Ic = ((5*m.pi()*a**4)/4) - (m.pi()*a**2*b**2) - ((m.pi()*b**4)/4) 
+
+Iy = ((5*m.pi()*a**4)/4) - (m.pi()*a**2*b**2) - ((m.pi()*b**4)/4)
+
+J = (m.pi()*(a**4-b**4))/2
+
+print(A, Xc, Yc, Ixc, Iyc, Ic, Iy, J)
+
+
+## Third Image
+a = 0.75
+
+
+A = (m.pi()*a**2)/2
+Xc = a
+Yc = (4*a)/(3*m.pi())
+
+Ixc = (a**4*(9*m.pi()**2 - 64))/(72*m.pi())
+
+Iyc = (m.pi()*a**4)/8 
+
+Ic = (m.pi()*a**4)/8 
+
+Iy = (5*m.pi()*a**4)/8
+
+
+print(A, Xc, Yc, Ixc, Iyc, Ic, Iy)
+
+
+
+## Fourth Image
+a = 0.6
+theta = m.radians(30)
+
+A = a**2*theta
+Xc = ((2*a)/3)*(m.sin(theta)/theta)
+Yc = 0
+
+Ic = (a**4*(theta - m.sin(theta)*m.cos(theta)))/4 
+
+Iy = (a**4*(theta + m.sin(theta)*m.cos(theta)))/4
+
+
+print(A, Xc, Yc, Ic, Iy)
+
+
+## Fifth Image
+a = 0.45
+theta = m.radians(17.5)
+
+A = a**2*(theta - (m.sin(2*theta)/2))
+
+Xc = ((2*a)/3)*((m.sin(theta)**3)/(theta - (m.sin(theta)*m.cos(theta))))
+
+Yc = 0
+
+Ic = (A*a**2/4)*(1-((2*m.sin(theta)**3*cos(theta))/((3*theta)-(3*m.sin(theta)*m.cos(theta))))) 
+
+Iy = (A*a**2/4)*(1-((2*m.sin(theta)**3*cos(theta))/((theta)-(3*m.sin(theta)*m.cos(theta))))) 
+
+print(A, Xc, Yc, Ic, Iy)
+
+
+#SHEET 3
+#Diagram 1
+
+a = 1.4
+b = 0.15
+
+A = (4*a*b)/3
+Xc = (3*a)/5
+Yc = 0
+
+Ixc = (4*a*b**2)/15
+
+Iyc = (16*a**3*b)/175
+
+Ix = Ixc
+
+Iy = (4*a**3*b)/7
+
+#  Diagram 2
+
+a = 2.75
+b = 0.35
+
+A = (2*a*b)/3
+Xc = (3*a)/5
+Yc = (3*b)/8
+
+Ix = (2*a*b**2)/15
+
+Iy = (2*a**3*b)/7
+
+# Diagram 3
+
+
+
+
+
+
+
+
+
+
